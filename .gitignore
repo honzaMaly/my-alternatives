@@ -225,3 +225,6 @@ gen
 .idea/modules.xml
 .idea/recommendation-engine.iml
 .idea/vcs.xml
+
+# Dataset
+data
