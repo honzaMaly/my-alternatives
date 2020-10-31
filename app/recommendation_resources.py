@@ -1,52 +1,43 @@
-"""Recommendation Resources - Endpoints to make recommendations"""
-
+"""Recommendation Resources - Endpoints to get recommendations"""
+from flask import request
 from flask_restplus import fields, Resource, Namespace
 
-from database import kaava_karlin
-from model import CategoryEnum, RecommendationTypeEnum
-from model.profiles import Profile
-from model.recommendations import Recommendation
+from database import dummy_recommendation
 
 # create namespace
-recommendations_api = Namespace('recommendations', description='Recommendation related operations')
-
-# create models for serializations & documentation
+recommendation_api = Namespace('recommendation', description='Recommendation related operations')
 
 # recommendation item
-recommendation_model = recommendations_api.model('Recommendation', {
+recommendation_model = recommendation_api.model('Recommendation', {
     'place': fields.String(attribute=lambda x: x.place.location_id),
+    'recommendation_id': fields.String,
     'user': fields.String(attribute=lambda x: x.user.user_id),
     'category': fields.String(attribute=lambda x: x.category.name),
     'recommendation_type': fields.String(attribute=lambda x: x.recommendation_type.name),
+    'alternative_places': fields.List(
+        fields.String, attribute=lambda x: [place.location_id for place in x.alternatives]),
 })
 
 # list of recommendations
-recommendation_list_model = recommendations_api.model('RecommendationList', {
+recommendation_list_model = recommendation_api.model('RecommendationList', {
     'recommendations': fields.List(fields.Nested(recommendation_model)),
 })
 
 
-@recommendations_api.route("/<string:user_id>")
-@recommendations_api.param('user_id', 'ID of the user')
-@recommendations_api.response(404, 'User not found')
+@recommendation_api.route("/<string:user_id>")
+@recommendation_api.param('user_id', 'ID of the user')
+@recommendation_api.param('lat', 'Latitude')
+@recommendation_api.param('lon', 'Longitude')
+@recommendation_api.response(404, 'User not found')
 class RecommendationResource(Resource):
 
-    @recommendations_api.marshal_with(recommendation_list_model)
+    @recommendation_api.marshal_with(recommendation_list_model)
     def get(self, user_id: str):
-
         # TODO - implement
-
-        # create dummy user
-        dummy_profile = Profile(user_id)
-
-        # create dummy recommendations
+        lat = request.args.get('lat', default=1, type=float)
+        lon = request.args.get('lon', default=1, type=float)
         return {
             'recommendations': [
-                Recommendation(
-                    place=kaava_karlin,
-                    user=dummy_profile,
-                    category=CategoryEnum.coffee,
-                    recommendation_type=RecommendationTypeEnum.frequency
-                )
+                dummy_recommendation
             ]
         }
