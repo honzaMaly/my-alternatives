@@ -1,0 +1,11 @@
+# Byte-compiled / optimized / DLL files.
+__pycache__/
+*$py.class
+
+# Unnecessary content
+Dockerfile
+.dockerignore
+environment.yml
+#docker_configuration
+
+# TODO - exclude notebooks
