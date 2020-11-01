@@ -7,5 +7,6 @@ Dockerfile
 .dockerignore
 environment.yml
 #docker_configuration
-
-# TODO - exclude notebooks
+data
+places_exploratory_data_analysis.ipynb
+transactions_exploratory_data_analysis.ipynb
