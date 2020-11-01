@@ -10,6 +10,25 @@ class CategoryEnum(enum.Enum):
     """
     coffee = 1
     eating_out = 2
+    party = 3
+    clothing = 4
+    bakery = 5
+    pets = 6
+
+
+def map_class(class_str: str) -> CategoryEnum:
+    if class_str == 'Party':
+        return CategoryEnum.party
+    elif class_str == 'Restaurant':
+        return CategoryEnum.eating_out
+    elif class_str == 'Clothing':
+        return CategoryEnum.clothing
+    elif class_str == 'Cafe':
+        return CategoryEnum.coffee
+    elif class_str == 'Bakery':
+        return CategoryEnum.bakery
+    elif class_str == 'Pets':
+        return CategoryEnum.pets
 
 
 class RecommendationTypeEnum(enum.Enum):

@@ -2,7 +2,7 @@
 from flask import request
 from flask_restplus import fields, Resource, Namespace
 
-from database import dummy_recommendation
+from database import make_recommendations
 
 # create namespace
 recommendation_api = Namespace('recommendation', description='Recommendation related operations')
@@ -33,11 +33,8 @@ class RecommendationResource(Resource):
 
     @recommendation_api.marshal_with(recommendation_list_model)
     def get(self, user_id: str):
-        # TODO - implement
         lat = request.args.get('lat', default=1, type=float)
         lon = request.args.get('lon', default=1, type=float)
         return {
-            'recommendations': [
-                dummy_recommendation
-            ]
+            'recommendations': make_recommendations()
         }

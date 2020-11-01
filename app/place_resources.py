@@ -2,7 +2,7 @@
 
 from flask_restplus import fields, Resource, Namespace
 
-from database import dummy_place
+from database import PLACES_BY_ID
 
 # create namespace
 place_api = Namespace('place', description='Place related operations')
@@ -40,5 +40,4 @@ class PlaceResource(Resource):
 
     @place_api.marshal_with(place_model)
     def get(self, location_id: str):
-        # TODO - implement
-        return dummy_place
+        return PLACES_BY_ID.get(location_id)
